@@ -1,0 +1,20 @@
+version: '3'
+services:   # list containers
+  web:    # give some reference name
+    build: # specify to use Dockerfile - just say .
+      context: .  # if file is not called Dockerfile
+      dockerfile: Dockerfile.dev # specify file name to use
+    ports:
+      - "3000:3000"   # port mappings
+    volumes:   # define localhost volumes for container to use
+      - /app/node_modules # tell not to overwrite /app/node_modules if it exsits on localhost mapped volume
+      - .:/app      # .:/app = $pwd:/app    -> maps locahost files in PWD to docker /app dir
+  tests:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    volumes:
+      - /app/node_modules
+      - .:/app
+    command: ["npm","run", "test"] # execute test command
+    
